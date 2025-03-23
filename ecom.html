@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple eCommerce</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>My eCommerce Store</h1>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="cart.html">Cart (<span id="cart-count">0</span>)</a>
+            <a href="signin.html">Sign In</a>
+        </nav>
+    </header>
+    
+    <main id="product-list">
+        <!-- Products will be loaded here dynamically -->
+    </main>
+    
+    <script src="script.js"></script>
+</body>
+</html>
+
+<!-- cart.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Shopping Cart</h1>
+        <nav>
+            <a href="index.html">Home</a>
+        </nav>
+    </header>
+    <main>
+        <ul id="cart-items"></ul>
+        <button onclick="checkout()">Proceed to Checkout</button>
+    </main>
+    <script src="script.js"></script>
+</body>
+</html>
+
+<!-- signin.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Sign In</h1>
+        <nav>
+            <a href="index.html">Home</a>
+        </nav>
+    </header>
+    <main>
+        <form id="signin-form">
+            <input type="text" placeholder="Name" required>
+            <input type="email" placeholder="Email" required>
+            <button type="submit">Sign In</button>
+        </form>
+    </main>
+    <script src="script.js"></script>
+</body>
+</html>
+
+<!-- checkout.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Checkout</h1>
+        <nav>
+            <a href="index.html">Home</a>
+        </nav>
+    </header>
+    <main>
+        <p>Payment simulation here.</p>
+        <button onclick="completeOrder()">Complete Order</button>
+    </main>
+    <script src="script.js"></script>
+</body>
+</html>
+
+<!-- styles.css -->
+body {
+    font-family: Arial, sans-serif;
+}
+header {
+    background: #333;
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+}
+nav a {
+    margin: 10px;
+    color: white;
+    text-decoration: none;
+}
+
+<!-- script.js -->
+const products = [
+    { id: 1, name: "Product 1", price: 10 },
+    { id: 2, name: "Product 2", price: 20 }
+];
+let cart = [];
+
+document.addEventListener("DOMContentLoaded", () => {
+    const productList = document.getElementById("product-list");
+    if (productList) {
+        products.forEach(product => {
+            const div = document.createElement("div");
+            div.innerHTML = `${product.name} - $${product.price} <button onclick='addToCart(${product.id})'>+</button>`;
+            productList.appendChild(div);
+        });
+    }
+
+    const cartItems = document.getElementById("cart-items");
+    if (cartItems) {
+        cart.forEach(item => {
+            const li = document.createElement("li");
+            li.textContent = `${item.name} - $${item.price}`;
+            cartItems.appendChild(li);
+        });
+    }
+});
+
+function addToCart(id) {
+    const product = products.find(p => p.id === id);
+    cart.push(product);
+    document.getElementById("cart-count").textContent = cart.length;
+}
+
+function checkout() {
+    window.location.href = "checkout.html";
+}
+
+function completeOrder() {
+    alert("Order Completed!");
+    cart = [];
+    window.location.href = "index.html";
+}
